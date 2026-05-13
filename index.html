@@ -1,1121 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Milani On The Books LLC — Bookkeeping Services</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milani On The Books LLC | Premium Bookkeeping</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c5a059; /* Premium Gold */
+            --light: #f8f9fa;
+            --text: #333;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
 
-    :root {
-      --navy:    #0a0e1a;
-      --navy2:   #0f1526;
-      --navy3:   #151c30;
-      --gold:    #c9a84c;
-      --gold2:   #e8c96a;
-      --gold3:   #f5e199;
-      --white:   #f4f1eb;
-      --muted:   #8a8fa8;
-      --border:  rgba(201,168,76,0.18);
-      --glow:    rgba(201,168,76,0.08);
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: #fff;
+        }
 
-    body {
-      background: var(--navy);
-      color: var(--white);
-      font-family: 'Outfit', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-      cursor: none;
-    }
+        /* Navigation & Logo */
+        nav {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: center;
+            background: white;
+        }
 
-    /* ── Custom Cursor ── */
-    .cursor {
-      width: 10px; height: 10px;
-      background: var(--gold);
-      border-radius: 50%;
-      position: fixed; top: 0; left: 0;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
-      mix-blend-mode: screen;
-    }
-    .cursor-ring {
-      width: 36px; height: 36px;
-      border: 1px solid rgba(201,168,76,0.5);
-      border-radius: 50%;
-      position: fixed; top: 0; left: 0;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: transform 0.18s ease, width 0.3s, height 0.3s, opacity 0.3s;
-    }
-    .cursor.hover { width: 16px; height: 16px; }
-    .cursor-ring.hover { width: 56px; height: 56px; opacity: 0.4; }
+        .logo-container img {
+            max-width: 300px;
+            height: auto;
+            display: block;
+        }
 
-    /* ── Noise Overlay ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025;
-      pointer-events: none;
-      z-index: 1000;
-    }
+        /* Hero Section */
+        .hero {
+            padding: 100px 5%;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 500;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 5vw;
-      background: linear-gradient(to bottom, rgba(10,14,26,0.95), transparent);
-      backdrop-filter: blur(2px);
-      transition: background 0.4s;
-    }
-    nav.scrolled {
-      background: rgba(10,14,26,0.97);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo {
-      display: flex; align-items: center; gap: 0.75rem;
-      text-decoration: none;
-    }
-    .nav-logo img {
-      height: 42px; width: 42px;
-      object-fit: contain;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-    }
-    .nav-logo-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      font-weight: 400;
-      color: var(--white);
-      letter-spacing: 0.04em;
-      line-height: 1.2;
-    }
-    .nav-logo-text span { color: var(--gold); }
-    .nav-links {
-      display: flex; gap: 2.5rem;
-      list-style: none;
-    }
-    .nav-links a {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color 0.3s;
-    }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-cta {
-      background: transparent;
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      padding: 0.55rem 1.4rem;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: none;
-      transition: background 0.3s, color 0.3s;
-    }
-    .nav-cta:hover { background: var(--gold); color: var(--navy); }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: flex-start;
-      padding: 0 8vw;
-      position: relative;
-      overflow: hidden;
-    }
+        .hero p {
+            font-size: 1.2rem;
+            color: #ccc;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-weight: 300;
+        }
 
-    /* Radial gold glow */
-    .hero::after {
-      content: '';
-      position: absolute;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
-      right: -100px; top: 50%;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
+        /* Services Grid */
+        .services {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    /* Animated grid lines */
-    .hero-grid {
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
-      animation: gridDrift 20s linear infinite;
-    }
-    @keyframes gridDrift {
-      0%   { background-position: 0 0; }
-      100% { background-position: 80px 80px; }
-    }
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
 
-    .hero-tag {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      border: 1px solid var(--border);
-      padding: 0.4rem 1rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
-    }
-    .hero-tag::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--gold);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50%      { opacity: 0.4; transform: scale(0.7); }
-    }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            margin: 15px auto;
+        }
 
-    .hero-headline {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.2rem, 7vw, 6.5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      max-width: 760px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.4s forwards;
-    }
-    .hero-headline em {
-      font-style: italic;
-      color: var(--gold);
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
 
-    .hero-sub {
-      margin-top: 1.8rem;
-      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.7;
-      font-weight: 300;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.6s forwards;
-    }
+        .card {
+            padding: 40px;
+            background: white;
+            border-bottom: 4px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
 
-    .hero-actions {
-      margin-top: 2.8rem;
-      display: flex; gap: 1.2rem; align-items: center;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.8s forwards;
-    }
-    .btn-primary {
-      background: var(--gold);
-      color: var(--navy);
-      padding: 0.9rem 2.2rem;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: none; cursor: none;
-      position: relative; overflow: hidden;
-      transition: transform 0.2s;
-    }
-    .btn-primary::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: rgba(255,255,255,0.15);
-      transform: translateX(-100%) skewX(-15deg);
-      transition: transform 0.4s;
-    }
-    .btn-primary:hover::after { transform: translateX(120%) skewX(-15deg); }
-    .btn-primary:hover { transform: translateY(-2px); }
-    .btn-ghost {
-      color: var(--white);
-      font-size: 0.82rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      display: flex; align-items: center; gap: 0.6rem;
-      transition: color 0.3s;
-    }
-    .btn-ghost:hover { color: var(--gold); }
-    .btn-ghost svg { transition: transform 0.3s; }
-    .btn-ghost:hover svg { transform: translateX(4px); }
+        .card:hover {
+            transform: translateY(-10px);
+            border-bottom: 4px solid var(--accent);
+            box-shadow: var(--shadow);
+        }
 
-    /* Floating stat cards */
-    .hero-stats {
-      position: absolute;
-      right: 8vw; bottom: 12vh;
-      display: flex; flex-direction: column; gap: 1rem;
-      opacity: 0;
-      animation: fadeLeft 1s 1s forwards;
-    }
-    @keyframes fadeLeft {
-      from { opacity: 0; transform: translateX(30px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    .stat-card {
-      background: rgba(15,21,38,0.8);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-      padding: 1.2rem 1.8rem;
-      min-width: 200px;
-      position: relative;
-      overflow: hidden;
-    }
-    .stat-card::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-    }
-    .stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      color: var(--gold2);
-    }
-    .stat-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.2rem;
-    }
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
 
-    /* Scroll indicator */
-    .scroll-hint {
-      position: absolute; bottom: 2.5rem; left: 8vw;
-      display: flex; align-items: center; gap: 0.8rem;
-      font-size: 0.72rem; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--muted);
-      opacity: 0; animation: fadeUp 1s 1.2s forwards;
-    }
-    .scroll-line {
-      width: 40px; height: 1px;
-      background: var(--border);
-      position: relative; overflow: hidden;
-    }
-    .scroll-line::after {
-      content: '';
-      position: absolute; top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: var(--gold);
-      animation: scrollAnim 2s 1.5s infinite;
-    }
-    @keyframes scrollAnim {
-      0%   { left: -100%; }
-      100% { left: 100%; }
-    }
+        /* Contact Form */
+        .contact-section {
+            padding: 100px 5%;
+            background-color: var(--light);
+        }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+        }
 
-    /* ── DIVIDER ── */
-    .gold-divider {
-      width: 100%; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      opacity: 0.3;
-    }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-    /* ── SERVICES ── */
-    section { padding: 7rem 8vw; }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-    .section-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 1rem;
-    }
-    .section-label::before {
-      content: '';
-      width: 30px; height: 1px;
-      background: var(--gold);
-    }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
 
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.2rem, 4vw, 3.6rem);
-      font-weight: 300;
-      line-height: 1.15;
-      max-width: 560px;
-    }
-    .section-title em { font-style: italic; color: var(--gold); }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
 
-    .services-grid {
-      margin-top: 4rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5px;
-      background: var(--border);
-      border: 1px solid var(--border);
-    }
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 15px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
 
-    .service-card {
-      background: var(--navy2);
-      padding: 3rem 2.5rem;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.4s;
-    }
-    .service-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), var(--gold2));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
-    }
-    .service-card:hover::before { transform: scaleX(1); }
-    .service-card:hover { background: var(--navy3); }
+        .btn:hover {
+            background: var(--accent);
+        }
 
-    .service-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3.5rem;
-      font-weight: 300;
-      color: rgba(201,168,76,0.12);
-      line-height: 1;
-      margin-bottom: 1.5rem;
-      transition: color 0.4s;
-    }
-    .service-card:hover .service-num { color: rgba(201,168,76,0.22); }
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            background: var(--primary);
+            color: #666;
+            font-size: 0.9rem;
+        }
 
-    .service-icon {
-      width: 46px; height: 46px;
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.5rem;
-      transition: border-color 0.4s, background 0.4s;
-    }
-    .service-card:hover .service-icon {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.07);
-    }
-    .service-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
-
-    .service-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 400;
-      margin-bottom: 0.8rem;
-      color: var(--white);
-    }
-    .service-desc {
-      font-size: 0.87rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    .service-arrow {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      margin-top: 1.8rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.3s, transform 0.3s;
-    }
-    .service-card:hover .service-arrow { opacity: 1; transform: translateY(0); }
-
-    /* ── WHY US ── */
-    .why-section {
-      background: var(--navy2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .why-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-    }
-    .why-visual {
-      position: relative;
-      height: 400px;
-    }
-    .why-box {
-      position: absolute;
-      background: var(--navy3);
-      border: 1px solid var(--border);
-    }
-    .why-box-1 { inset: 0 60px 60px 0; }
-    .why-box-2 {
-      width: 200px; height: 200px;
-      right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.03));
-      border-color: rgba(201,168,76,0.3);
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 0.3rem;
-    }
-    .why-box-2-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      color: var(--gold2);
-    }
-    .why-box-2-text {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-align: center;
-      padding: 0 1rem;
-    }
-    .why-box-inner {
-      position: absolute; inset: 2.5rem;
-      display: flex; flex-direction: column; justify-content: flex-end;
-    }
-    .why-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem;
-      font-style: italic;
-      color: var(--white);
-      line-height: 1.5;
-      opacity: 0.8;
-    }
-    .why-quote-author {
-      margin-top: 0.8rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    .why-list {
-      list-style: none;
-      margin-top: 2.5rem;
-      display: flex; flex-direction: column; gap: 1.4rem;
-    }
-    .why-item {
-      display: flex; gap: 1rem; align-items: flex-start;
-      padding-bottom: 1.4rem;
-      border-bottom: 1px solid rgba(201,168,76,0.08);
-    }
-    .why-item:last-child { border-bottom: none; }
-    .why-item-icon {
-      width: 32px; height: 32px; flex-shrink: 0;
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      margin-top: 2px;
-    }
-    .why-item-icon svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; stroke-width: 2; }
-    .why-item-title {
-      font-size: 0.88rem; font-weight: 500;
-      color: var(--white); margin-bottom: 0.25rem;
-    }
-    .why-item-text {
-      font-size: 0.82rem; color: var(--muted); line-height: 1.6;
-    }
-
-    /* ── PROCESS ── */
-    .process-steps {
-      margin-top: 4rem;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      position: relative;
-    }
-    .process-steps::before {
-      content: '';
-      position: absolute;
-      top: 28px; left: 10%; right: 10%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), var(--border), transparent);
-    }
-    .process-step {
-      padding: 0 1.5rem;
-      text-align: center;
-    }
-    .step-circle {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: var(--navy2);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.5rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      color: var(--gold);
-      position: relative; z-index: 1;
-      transition: background 0.4s, border-color 0.4s, transform 0.4s;
-    }
-    .process-step:hover .step-circle {
-      background: rgba(201,168,76,0.12);
-      border-color: var(--gold);
-      transform: scale(1.1);
-    }
-    .step-title {
-      font-size: 0.9rem; font-weight: 500;
-      margin-bottom: 0.6rem; color: var(--white);
-    }
-    .step-text {
-      font-size: 0.8rem; color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* ── CONTACT ── */
-    .contact-section {
-      background: var(--navy2);
-      border-top: 1px solid var(--border);
-    }
-    .contact-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
-    }
-    .contact-info p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.8;
-      margin-top: 1.5rem;
-      max-width: 360px;
-    }
-    .contact-details {
-      margin-top: 2.5rem;
-      display: flex; flex-direction: column; gap: 1rem;
-    }
-    .contact-row {
-      display: flex; gap: 1rem; align-items: center;
-    }
-    .contact-row svg {
-      width: 16px; height: 16px;
-      stroke: var(--gold); fill: none; stroke-width: 1.5; flex-shrink: 0;
-    }
-    .contact-row span { font-size: 0.87rem; color: var(--muted); }
-
-    .contact-form {
-      display: flex; flex-direction: column; gap: 1.2rem;
-    }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-    .form-group label {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(201,168,76,0.15);
-      color: var(--white);
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.87rem;
-      padding: 0.85rem 1.1rem;
-      outline: none;
-      transition: border-color 0.3s, background 0.3s;
-      cursor: none;
-    }
-    .form-group input::placeholder,
-    .form-group textarea::placeholder { color: rgba(138,143,168,0.4); }
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.04);
-    }
-    .form-group select option { background: var(--navy2); color: var(--white); }
-    .form-group textarea { resize: vertical; min-height: 110px; }
-
-    .form-submit {
-      background: var(--gold);
-      color: var(--navy);
-      border: none;
-      padding: 1rem 2rem;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      cursor: none;
-      position: relative; overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.3s;
-      align-self: flex-start;
-    }
-    .form-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(201,168,76,0.25);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      padding: 3rem 8vw;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
-      color: var(--muted);
-    }
-    .footer-logo span { color: var(--gold); }
-    .footer-copy {
-      font-size: 0.78rem;
-      color: rgba(138,143,168,0.5);
-      letter-spacing: 0.06em;
-    }
-    .footer-links {
-      display: flex; gap: 2rem; list-style: none;
-    }
-    .footer-links a {
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .footer-links a:hover { color: var(--gold); }
-
-    /* ── REVEAL ANIMATIONS ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1),
-                  transform 0.8s cubic-bezier(0.4,0,0.2,1);
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-
-    /* ── Hamburger (mobile) ── */
-    .hamburger {
-      display: none;
-      flex-direction: column; gap: 5px;
-      background: none; border: none; cursor: none;
-    }
-    .hamburger span {
-      display: block; width: 24px; height: 1px;
-      background: var(--white); transition: 0.3s;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 960px) {
-      .why-inner, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .why-visual { height: 260px; }
-      .process-steps { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-      .process-steps::before { display: none; }
-      .hero-stats { display: none; }
-      .nav-links, .nav-cta { display: none; }
-      .hamburger { display: flex; }
-      .form-row { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 600px) {
-      section { padding: 4.5rem 6vw; }
-      nav { padding: 1.2rem 6vw; }
-      .hero { padding: 0 6vw; }
-      .process-steps { grid-template-columns: 1fr; }
-      footer { flex-direction: column; align-items: flex-start; }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .form-container { padding: 30px; }
+            .hero { padding: 60px 5%; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Custom cursor -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- NAV -->
-  <nav id="navbar">
-    <a href="#" class="nav-logo">
-      <img src="images/logo.jpg" alt="Milani On The Books" />
-      <div class="nav-logo-text">Milani <span>On The Books</span></div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#why">About</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
-      Get Started
-    </button>
-    <button class="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-grid"></div>
-
-    <div class="hero-tag">Professional Bookkeeping Services</div>
-
-    <h1 class="hero-headline">
-      Your Books,<br/>
-      <em>Perfectly</em><br/>
-      Balanced.
-    </h1>
-
-    <p class="hero-sub">
-      Milani On The Books LLC delivers meticulous financial clarity — so you can
-      focus on growing your business with complete confidence.
-    </p>
-
-    <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Book a Consultation</a>
-      <a href="#services" class="btn-ghost">
-        Explore Services
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </a>
-    </div>
-
-    <div class="hero-stats">
-      <div class="stat-card">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Accuracy Guaranteed</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">4</div>
-        <div class="stat-label">Core Service Areas</div>
-      </div>
-    </div>
-
-    <div class="scroll-hint">
-      <div class="scroll-line"></div>
-      Scroll to explore
-    </div>
-  </header>
-
-  <div class="gold-divider"></div>
-
-  <!-- SERVICES -->
-  <section id="services">
-    <div class="section-label reveal">Our Services</div>
-    <h2 class="section-title reveal reveal-delay-1">
-      Everything your<br/><em>finances need</em>
-    </h2>
-
-    <div class="services-grid">
-
-      <!-- Card 1 -->
-      <div class="service-card reveal reveal-delay-1">
-        <div class="service-num">01</div>
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18"/></svg>
+    <nav>
+        <div class="logo-container">
+            <!-- Your logo folder and file name -->
+            <img src="images/logo.jpg" alt="Milani On The Books LLC">
         </div>
-        <h3 class="service-name">Categorizing Transactions</h3>
-        <p class="service-desc">Every transaction organized and classified with precision — giving you a crystal-clear picture of where your money flows.</p>
-        <span class="service-arrow">Learn more →</span>
-      </div>
+    </nav>
 
-      <!-- Card 2 -->
-      <div class="service-card reveal reveal-delay-2">
-        <div class="service-num">02</div>
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M4 4v16h16M8 16V8m4 8V4m4 12v-6"/></svg>
-        </div>
-        <h3 class="service-name">Reconcile Accounts</h3>
-        <p class="service-desc">Systematic account reconciliation ensuring your records align perfectly with bank statements — eliminating discrepancies before they become problems.</p>
-        <span class="service-arrow">Learn more →</span>
-      </div>
+    <header class="hero">
+        <h1>Clarity in Your Capital.</h1>
+        <p>Premium bookkeeping services for businesses that demand precision, punctuality, and professional advisory.</p>
+        <a href="#contact" class="btn" style="width: auto;">Schedule a Consultation</a>
+    </header>
 
-      <!-- Card 3 -->
-      <div class="service-card reveal reveal-delay-3">
-        <div class="service-num">03</div>
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
-        </div>
-        <h3 class="service-name">Financial Reports</h3>
-        <p class="service-desc">Comprehensive profit & loss statements, balance sheets, and cash flow reports — the intelligence you need to make confident decisions.</p>
-        <span class="service-arrow">Learn more →</span>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="service-card reveal reveal-delay-4">
-        <div class="service-num">04</div>
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-        </div>
-        <h3 class="service-name">Advisory Services</h3>
-        <p class="service-desc">Strategic financial guidance tailored to your business goals — turning raw numbers into actionable insights that drive growth.</p>
-        <span class="service-arrow">Learn more →</span>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="gold-divider"></div>
-
-  <!-- WHY US -->
-  <section class="why-section" id="why">
-    <div class="why-inner">
-
-      <div class="why-visual reveal">
-        <div class="why-box why-box-1">
-          <div class="why-box-inner">
-            <p class="why-quote">"Clean books are the foundation of every successful business."</p>
-            <p class="why-quote-author">— Milani On The Books LLC</p>
-          </div>
-        </div>
-        <div class="why-box why-box-2">
-          <div class="why-box-2-num">LLC</div>
-          <div class="why-box-2-text">Trusted & Professional</div>
-        </div>
-      </div>
-
-      <div>
-        <div class="section-label reveal">Why Choose Us</div>
-        <h2 class="section-title reveal reveal-delay-1">
-          Precision &<br/><em>Dedication</em><br/>in every entry
-        </h2>
-
-        <ul class="why-list">
-          <li class="why-item reveal reveal-delay-1">
-            <div class="why-item-icon">
-              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    <section class="services">
+        <h2 class="section-title">Our Services</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Categorizing Transactions</h3>
+                <p>Meticulous organization of every dollar to ensure your books are always audit-ready.</p>
             </div>
-            <div>
-              <div class="why-item-title">Meticulous Attention to Detail</div>
-              <div class="why-item-text">Every entry reviewed for accuracy. Your books will never leave you guessing.</div>
+            <div class="card">
+                <h3>Reconcile Accounts</h3>
+                <p>Verified accuracy across all bank and credit accounts for a flawless financial picture.</p>
             </div>
-          </li>
-          <li class="why-item reveal reveal-delay-2">
-            <div class="why-item-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div class="card">
+                <h3>Financial Reports</h3>
+                <p>Monthly P&L, Balance Sheets, and Cash Flow statements delivered with absolute precision.</p>
             </div>
-            <div>
-              <div class="why-item-title">Confidential & Secure</div>
-              <div class="why-item-text">Your financial data is handled with the utmost discretion and professional care.</div>
+            <div class="card">
+                <h3>Advisory Services</h3>
+                <p>Strategic insights to help you understand the numbers and scale your business profitably.</p>
             </div>
-          </li>
-          <li class="why-item reveal reveal-delay-3">
-            <div class="why-item-icon">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </div>
-            <div>
-              <div class="why-item-title">Timely & Reliable</div>
-              <div class="why-item-text">Reports and reconciliations delivered on schedule — always. So your business never skips a beat.</div>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="gold-divider"></div>
-
-  <!-- PROCESS -->
-  <section id="process">
-    <div class="section-label reveal">How It Works</div>
-    <h2 class="section-title reveal reveal-delay-1">A seamless <em>process</em></h2>
-
-    <div class="process-steps">
-      <div class="process-step reveal reveal-delay-1">
-        <div class="step-circle">01</div>
-        <div class="step-title">Free Consultation</div>
-        <p class="step-text">We learn about your business, goals, and current bookkeeping situation.</p>
-      </div>
-      <div class="process-step reveal reveal-delay-2">
-        <div class="step-circle">02</div>
-        <div class="step-title">Onboarding</div>
-        <p class="step-text">Secure access is established and we review your existing accounts and records.</p>
-      </div>
-      <div class="process-step reveal reveal-delay-3">
-        <div class="step-circle">03</div>
-        <div class="step-title">Ongoing Work</div>
-        <p class="step-text">Regular categorization, reconciliation, and reporting on your schedule.</p>
-      </div>
-      <div class="process-step reveal reveal-delay-4">
-        <div class="step-circle">04</div>
-        <div class="step-title">Insights & Growth</div>
-        <p class="step-text">Advisory review sessions to turn your numbers into smart business decisions.</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="gold-divider"></div>
-
-  <!-- CONTACT -->
-  <section class="contact-section" id="contact">
-    <div class="contact-inner">
-
-      <div class="contact-info">
-        <div class="section-label reveal">Get In Touch</div>
-        <h2 class="section-title reveal reveal-delay-1">
-          Let's talk about<br/><em>your books</em>
-        </h2>
-        <p class="reveal reveal-delay-2">
-          Ready to bring clarity and confidence to your finances? Reach out today for a free, no-obligation consultation with Milani On The Books LLC.
-        </p>
-        <div class="contact-details reveal reveal-delay-3">
-          <div class="contact-row">
-            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            <span>info@milanionthebooks.com</span>
-          </div>
-          <div class="contact-row">
-            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.64a16 16 0 006.29 6.29l1.56-1.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15.73v1.19z"/></svg>
-            <span>Available Monday – Friday</span>
-          </div>
-          <div class="contact-row">
-            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>Serving clients nationwide</span>
-          </div>
         </div>
-      </div>
+    </section>
 
-      <form class="contact-form reveal reveal-delay-2" onsubmit="handleSubmit(event)">
-        <div class="form-row">
-          <div class="form-group">
-            <label>First Name</label>
-            <input type="text" placeholder="Jane" />
-          </div>
-          <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" placeholder="Smith" />
-          </div>
+    <section class="contact-section" id="contact">
+        <div class="form-container">
+            <h2 class="section-title" style="font-size: 2rem;">Get In Touch</h2>
+            <!-- You can later update 'action' with your Google Form URL -->
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="john@business.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Inquiry Type</label>
+                    <input type="text" name="subject" placeholder="Bookkeeping Cleanup, Monthly Services, etc.">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea name="message" rows="5" placeholder="Tell us about your business..."></textarea>
+                </div>
+                <button type="submit" class="btn">Send Inquiry</button>
+            </form>
         </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" placeholder="jane@yourbusiness.com" />
-        </div>
-        <div class="form-group">
-          <label>Business Name</label>
-          <input type="text" placeholder="Your Business LLC" />
-        </div>
-        <div class="form-group">
-          <label>Service Interested In</label>
-          <select>
-            <option value="">Select a service...</option>
-            <option>Categorizing Transactions</option>
-            <option>Reconcile Accounts</option>
-            <option>Financial Reports</option>
-            <option>Advisory Services</option>
-            <option>Full Service Package</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Message</label>
-          <textarea placeholder="Tell us a bit about your business and what you need..."></textarea>
-        </div>
-        <button type="submit" class="form-submit">Send Message →</button>
-      </form>
+    </section>
 
-    </div>
-  </section>
+    <footer>
+        <p>&copy; 2026 Milani On The Books LLC. All Rights Reserved.</p>
+    </footer>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">
-      Milani <span>On The Books</span> LLC
-    </div>
-    <ul class="footer-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#why">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <p class="footer-copy">© 2025 Milani On The Books LLC. All rights reserved.</p>
-  </footer>
-
-  <script>
-    // ── Custom Cursor
-    const cursor = document.getElementById('cursor');
-    const ring   = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx + 'px';
-      cursor.style.top  = my + 'px';
-    });
-
-    function animateRing() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
-      requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    document.querySelectorAll('a, button, input, select, textarea, .service-card').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.classList.add('hover');
-        ring.classList.add('hover');
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hover');
-        ring.classList.remove('hover');
-      });
-    });
-
-    // ── Navbar scroll
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 60);
-    });
-
-    // ── Scroll reveal
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // ── Smooth anchor scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-
-    // ── Form submit
-    function handleSubmit(e) {
-      e.preventDefault();
-      const btn = e.target.querySelector('.form-submit');
-      btn.textContent = 'Message Sent ✓';
-      btn.style.background = '#2d5a27';
-      btn.style.color = '#a8d5a2';
-      setTimeout(() => {
-        btn.textContent = 'Send Message →';
-        btn.style.background = '';
-        btn.style.color = '';
-        e.target.reset();
-      }, 3500);
-    }
-
-    // ── Parallax hero grid
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      document.querySelector('.hero-grid').style.transform = `translateY(${y * 0.3}px)`;
-    });
-  </script>
 </body>
 </html>
